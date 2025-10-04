@@ -20,6 +20,8 @@ const transporter = nodemailer.createTransport({
 app.post('/api/contact', async (req, res) => {
     const { name, email, subject, message } = req.body;
 
+    console.log('📦 BODY RECIBIDO:', req.body);
+
     if (!name || !email || !subject || !message) {
         return res.status(400).json({
             success: false,
@@ -28,11 +30,11 @@ app.post('/api/contact', async (req, res) => {
     }
 
     const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        subject: `Nuevo mensaje de contacto: ${subject}`,
+        from: `"${name}" <${process.env.EMAIL_USER}>`,
+        to: process.env.EMAIL_USER, 
+        subject: `📬 Portafolio - ${subject}`,
         html: `
-      <h2>Nuevo mensaje desde tu portafolio</h2>
+      <h2>Mensaje de ${name}</h2>
       <p><strong>Nombre:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Asunto:</strong> ${subject}</p>
